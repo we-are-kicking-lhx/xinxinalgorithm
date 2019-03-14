@@ -1,4 +1,5 @@
 //这是一个愚蠢的用马拉车对暴力解法实现的优化
+//63ms 16M
 class Solution {
 public:
     int lengthOfLongestSubstring(string s) {
@@ -44,3 +45,29 @@ public:
     }
 };
 //理想解法应该是滑动窗口法，明日改
+//滑动窗口法，其实跑出来的结果和上面方法差不多 (52ms,16M)
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        
+        if(s.length()==0)return 0;
+        int left = 0, right = 1,max = 1;
+        map<int,int>m;
+        m[s[0]] = 1;
+        map<int,int>::iterator it;
+        while (right < s.length()) {
+            it = m.find(s[right]);
+            if(it != m.end() && it->second != 0){
+                while (s[left]!=s[right]) {
+                    m[s[left]] = 0;
+                    left++;
+                }
+                left++;
+            }
+            m[s[right]] = 1;
+            max = right - left + 1 > max ? right - left + 1 : max;
+            right++;
+        }
+        return max;
+    }
+};
