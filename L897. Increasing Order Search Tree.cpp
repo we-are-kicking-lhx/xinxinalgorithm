@@ -11,7 +11,7 @@ public:
     void func(TreeNode* node){
         if(!node) return;
         func(node->left);
-        cur->left=nullptr;
+        node->left=nullptr;
         cur->right=node;
         cur=cur->right;
         func(node->right);
