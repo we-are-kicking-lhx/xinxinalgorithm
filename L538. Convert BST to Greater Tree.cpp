@@ -19,3 +19,4 @@ public:
         return root;
     }
 };
+// 前序遍历倒过来
