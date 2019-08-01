@@ -21,3 +21,23 @@ public:
         func(root->right,RIGHT);
     }
 };
+
+// class Solution {
+// public:
+//     int sumOfLeftLeaves(TreeNode* root) {
+//         if (!root) return 0;
+//         if (!root->left && !root->right) return 0;
+//         return func(root);
+//     }
+//     int func(TreeNode* root) {
+//         if(!root) return 0;
+//         if(!root->left && !root->right) return root->val;
+//         int res=0;
+//         res+=func(root->left);
+//         while(root->right){
+//             root=root->right;
+//             res+=func(root->left);
+//         }
+//         return res;
+//     }
+// };
