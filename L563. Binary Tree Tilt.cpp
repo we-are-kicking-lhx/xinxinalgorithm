@@ -9,10 +9,17 @@ int val;
  
 class Solution {
 public:
-
+    int res;
     int findTilt(TreeNode* root) {
         if(!root) return 0;
-        if(!root->left && !root->right) return root->val;
-        return abs(findTilt(root->left)-findTilt(root->right)); 
+        postorder(root);
+        return res;
+    }
+    int postorder(TreeNode* root){
+        if(!root) return 0;
+        int left=postorder(root->left);
+        int right=postorder(root->right);
+        res+=abs(left-right);
+        return left+right+root->val;
     }
 };
