@@ -1,38 +1,32 @@
 class Solution {
 public:
-    string dict(string s){
-        int r[26] = {0};
-        for(int i = 0;i < s.length();i++){
-            r[s[i] - 'a'] += 1;
+    string getSeq(string s){
+        int dict[26] = {};
+        for(auto c : s)
+            dict[c - 'a']++;
+        s = " ";
+        for(auto i : dict){
+            s += to_string(i);
+            s += "#";
         }
-        string res = "";
-        for(int i = 0;i < 26;i++){
-            res += to_string(r[i]);
-        }
-        return res;
+        return s;
+        
     }
-    
     vector<vector<string>> groupAnagrams(vector<string>& strs) {
-        vector<vector<string>> res;
-        vector<string>dicts;
-        vector<string>::iterator it;
-        for (it = strs.begin(); it != strs.end(); it++) {
-            string vec = dict(*it);
-            int flag = -1;
-            for(int i = 0;i < dicts.size();i++){
-                if (dicts[i] == vec){
-                    flag = i;
-                    break;
-                }
+        unordered_map<string,int>hashmap;
+        vector<vector<string>>ans;
+        int cnt = 0;
+        for(auto s : strs){
+            string seq = getSeq(s);
+            if(hashmap.count(seq) == 0){
+                ans.push_back(vector<string>());
+                hashmap[seq] = cnt++;
+                ans[cnt - 1].push_back(s);
             }
-            if(flag == -1){
-                dicts.push_back(vec);
-                vector<string> new_vec;
-                new_vec.push_back(*it);
-                res.push_back(new_vec);
-            }
-            else res[flag].push_back(*it);
+            else 
+                ans[hashmap[seq]].push_back(s);
         }
-        return res;
+        return ans;
     }
 };
+//转换为数字序列再hash
