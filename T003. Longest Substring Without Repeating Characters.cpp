@@ -71,3 +71,24 @@ public:
         return max;
     }
 };
+//优化的滑动窗口
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        int n = s.length();
+        if(!n) return 0;
+        unordered_map<char,int>hashmap;
+        int left = 0,right = 1,max_len = 1;
+        hashmap[s[0]] = 0;
+        while(right < n){
+            if(hashmap.count(s[right]) > 0){
+                left = max(left,hashmap[s[right]]+1);
+            } 
+            max_len = max(right - left + 1,max_len);
+            hashmap[s[right]] = right;
+            right++;
+        }
+        return max_len;
+    }
+
+};
