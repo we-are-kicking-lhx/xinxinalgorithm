@@ -20,3 +20,17 @@ public:
         return cnt;
     }
 };
+//hashset
+class Solution {
+public:
+    int numJewelsInStones(string J, string S) {
+        unordered_map<char,int>hashmap;
+        int cnt = 0;
+        for(auto c : J)
+            hashmap[c] = 1;
+        for(auto c : S)
+            if(hashmap[c] == 1)
+                cnt++;
+        return cnt;
+    }
+};
