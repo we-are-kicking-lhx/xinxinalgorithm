@@ -1,22 +1,36 @@
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- * };
- */
+//递归
 class Solution {
 public:
     int maxDepth(TreeNode* root) {
-        int left = 0,right = 0;
-        if( root  == NULL)
+        if(!root)
             return 0;
-        if (root->left != NULL)
-            left = maxDepth(root->left);
-        if (root->right != NULL)
-            right = maxDepth(root->right);
-        return max(left,right) + 1;
+        int d_l = maxDepth(root->left);
+        int d_r = maxDepth(root->right);
+        return max(d_l,d_r)+1;
+    }
+};
+
+//迭代
+class Solution {
+public:
+    int maxDepth(TreeNode* root) {
+        int cnt = 0;
+        if(!root)
+            return 0;
+        queue<TreeNode *>q;
+        q.push(root);
+        while(!q.empty()){
+            cnt++;
+            int level_numbers = q.size();
+            while(level_numbers--){
+                TreeNode *node = q.front();
+                q.pop();
+                if(node->left)
+                    q.push(node->left);
+                if(node->right)
+                    q.push(node->right);
+            }
+        }
+        return cnt;
     }
 };
