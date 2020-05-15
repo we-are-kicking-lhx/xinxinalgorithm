@@ -1,25 +1,21 @@
 class Solution {
 public:
-    int res;
-    vector<vector<int>>r;
-    void dfs(TreeNode * t,int sum,vector<int>v){
-        sum += t->val;
-        v.push_back(t->val);
-        if(sum == res && t->left == NULL && t->right == NULL)
-            r.push_back(v);
-        else{
-            if(t->left != NULL)dfs(t->left,sum, v);
-            if(t->right != NULL)dfs(t->right, sum, v);
+    vector<vector<int>>res;
+    void dfs(vector<int>v,TreeNode *root,int sum){
+        v.push_back(root->val);
+        if(!(root->left||root->right)){
+            if(sum == root->val)
+                res.push_back(v);
+            return;
         }
-        return;
+        if(root->left)
+            dfs(v,root->left,sum - root->val);
+        if(root->right)
+            dfs(v,root->right,sum - root->val);
     }
-    
     vector<vector<int>> pathSum(TreeNode* root, int sum) {
-        res = sum;
-        vector<int>v;
-        if(root == NULL) return r;
-        dfs(root, 0, v);
-        return r;
+        if(root)
+            dfs({},root,sum);
+        return res;
     }
 };
-//因为存在负数节点所以不需要做剪枝
