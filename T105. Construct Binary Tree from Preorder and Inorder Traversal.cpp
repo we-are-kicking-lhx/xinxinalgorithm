@@ -1,26 +1,22 @@
 class Solution {
 public:
-    vector<int>pre_o,in_o;
+    vector<int>pre,ino;
     int cnt = 0;
-    TreeNode * make_tree(int begin,int end){
-        if(begin > end)
+    TreeNode* make_tree(int s,int e){
+        if(s > e)
             return NULL;
-        int root = pre_o[cnt++];
-        TreeNode *t = new TreeNode(root);
-        if(begin < end){
-            int pos =find(in_o.begin() + begin, in_o.begin() + end,root) - in_o.begin();
-            t -> left = make_tree(begin, pos - 1) ;
-            t -> right = make_tree(pos + 1, end);
+        int val = pre[cnt++];
+        TreeNode *node = new TreeNode(val);
+        if(s < e){
+            int pos = find(ino.begin()+s,ino.begin()+e,val)-ino.begin();
+            node->left = make_tree(s,pos-1);
+            node->right = make_tree(pos+1,e);
         }
-        return t;
+        return node;
     }
     TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
-        int n = preorder.size();
-        if(!n)
-            return NULL;
-        pre_o = preorder;
-        in_o = inorder;
-        TreeNode * t = make_tree(0, n - 1);
-        return t;
+        pre = preorder;
+        ino = inorder;
+        return make_tree(0,inorder.size()-1);
     }
 };
