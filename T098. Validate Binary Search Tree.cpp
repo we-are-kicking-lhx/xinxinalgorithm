@@ -1,22 +1,46 @@
+//递归
 class Solution {
 public:
-    vector<int>v;
+    vector<int>res;
+    void dfs(TreeNode* root){
+        if(root->left)
+            dfs(root->left);
+        res.emplace_back(root->val);
+        if(root->right)
+            dfs(root->right);
+    }
     bool isValidBST(TreeNode* root) {
+        if(!root)return true;
         dfs(root);
-        if(v.size() <= 1)
-            return true;
-        for(int i = 1;i < v.size();i++){
-            if(v[i] <= v[i-1])
+        for(int i = 1;i < res.size();i++){
+            if(res[i] <= res[i-1])
                 return false;
         }
         return true;
     }
-    void dfs(TreeNode* root){
-        if (root == NULL)
-            return;
-        dfs(root->left);
-        v.push_back(root->val);
-        dfs(root->right);
+};
+//迭代
+class Solution {
+public:
+    bool isValidBST(TreeNode* root) {
+        if(!root)return true;
+        vector<int>res;
+        stack<TreeNode *>s;
+        TreeNode * node = root;
+        while(node || !s.empty()){
+            while(node){
+                s.push(node);
+                node = node->left;
+            }
+            node = s.top();
+            s.pop();
+            res.emplace_back(node->val);
+            node = node->right;
+        }
+        for(int i = 1;i < res.size();i++){
+            if(res[i-1] >= res[i])
+                return false;
+        }
+        return true;
     }
 };
-//二叉搜索树要求所有左子树的结点小于当前结点，所有右子树的结点大于当前结点
