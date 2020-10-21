@@ -1,22 +1,15 @@
 class Solution {
 public:
     bool canConstruct(string ransomNote, string magazine) {
-        int a[26]={0},b[26]={0};
-        int cnt = 0;
-        for(auto c : ransomNote){
-            a[c - 'a']++;
-            cnt++;
+        unordered_map<char,int>hashmap;
+        for(char c : magazine)
+            hashmap[c]++;
+        for(char c : ransomNote){
+            if(hashmap.count(c) == 0 || hashmap[c] == 0)
+                return false;
+            else
+                hashmap[c]--;
         }
-        for(auto c: magazine){
-            if(a[c - 'a'] > 0){
-                a[c - 'a']--;
-                cnt--;
-            }
-            if(!cnt)
-                return true;
-        }
-        if(!cnt)
-            return true;
-        return false;
+        return true;
     }
 };

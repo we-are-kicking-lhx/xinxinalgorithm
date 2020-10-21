@@ -1,21 +1,39 @@
+//n^2
 class Solution {
 public:
     int lengthOfLIS(vector<int>& nums) {
-        if(!nums.size())return 0; //nums为空的情况
-        vector<int>ans = vector<int>(nums.size()+1,0);
-        ans[1] = nums[0];
-        int cur = 1;//当前最长子序列长度
-        for (int i = 1; i < nums.size(); ++i)
-        {
-        	if(nums[i] > ans[cur]) 
-        		ans[++cur] = nums[i];
-        	else{
-        		int pos = lower_bound(ans.begin()+1,ans.begin()+cur+1,nums[i]) - ans.begin();
-        		ans[pos] = nums[i];
-        	}
+        int n = nums.size();
+        vector<int>dp = vector<int>(n);
+        int res = 0;
+        for (int i = 0; i < n; i++) {
+            dp[i] = 1;
+            for (int j = 0; j < i; j++) {
+                if(nums[j] < nums[i])
+                    dp[i] = max(dp[i],dp[j]+1);
+            }
+            res = max(res,dp[i]);
         }
-        return cur;
+        return res;
     }
 };
-//dp[i] 以第i个字符结尾 最长的子序列个数
-//ans[i] 最长子序列长度为i 的最小结尾数
+
+//nlogn
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        int n = nums.size();
+        if(!n)return 0;
+        vector<int>ans = vector<int>(n + 1);
+        ans[1] = nums[0];
+        int res = 1;
+        for (int i = 1; i < n; i++) {
+            if(nums[i] > ans[res])
+                ans[++res] = nums[i];
+            else{
+                int pos = lower_bound(ans.begin()+1, ans.begin()+res+1, nums[i]) - ans.begin();
+                ans[pos] = nums[i];
+            }
+        }
+        return res;
+    }
+};

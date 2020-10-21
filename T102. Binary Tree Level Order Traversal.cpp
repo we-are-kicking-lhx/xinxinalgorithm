@@ -1,25 +1,19 @@
 class Solution {
 public:
+    vector<vector<int>>res;
+    void helper(TreeNode* root,int level){
+        if(res.size() == level)
+            res.push_back({});
+        res[level].push_back(root->val);
+        if(root->left != NULL)
+            helper(root->left, level + 1);
+        if(root->right != NULL)
+            helper(root->right, level + 1);
+    }
     vector<vector<int>> levelOrder(TreeNode* root) {
-        vector<vector<int>>res;
         if(root == NULL)
             return res;
-        queue<TreeNode*>q;
-        q.push(root);
-        while(!q.empty()){
-            int level_numbers = q.size();
-            vector<int>temp;
-            while(level_numbers--){
-                TreeNode *node = q.front();
-                q.pop();
-                temp.emplace_back(node->val);
-                if(node->left)
-                    q.push(node->left);
-                if(node->right)
-                    q.push(node->right);
-            }
-            res.emplace_back(temp);
-        }
+        helper(root, 0);
         return res;
     }
 };

@@ -1,13 +1,17 @@
 class Solution {
 public:
     vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {
-        set<int>num1(nums1.begin(),nums1.end());
-        set<int>num2(nums2.begin(),nums2.end());
+        unordered_map<int,int>hashmap;
         vector<int>res;
-        for(auto i : num2){
-            if(binary_search(num1.begin(), num1.end(),i))
-                res.push_back(i);
+        for(auto i : nums1)
+            hashmap[i] = 1;
+        for(auto j : nums2){
+            if(hashmap[j] == 1){
+                hashmap[j] = 0;
+                res.push_back(j);
+            }
         }
         return res;
+            
     }
 };
